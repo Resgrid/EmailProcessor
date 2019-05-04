@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor", "Resgrid.EmailProcessor\Resgrid.EmailProcessor.csproj", "{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{6E18955C-83AA-4133-B0B3-C180FED8C083}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.Providers.ApiClient", "Resgrid.Providers.ApiClient\Resgrid.Providers.ApiClient.csproj", "{3FD1E731-623F-4EED-B6B9-50FCB15F2874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor.Core", "Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj", "{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3FD1E731-623F-4EED-B6B9-50FCB15F2874} = {6E18955C-83AA-4133-B0B3-C180FED8C083}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A5355A4-E969-4514-8E72-0D7BC9B1EB8B}
+	EndGlobalSection
+EndGlobal

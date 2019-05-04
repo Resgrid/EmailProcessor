@@ -1,0 +1,6 @@
+{
+  "ApiUrl": "https://api.resgrid.com",
+  "Username": "TEST",
+  "Password": "TEST",
+  "Ports": "25, 587"
+}
