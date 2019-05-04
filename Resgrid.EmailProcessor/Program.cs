@@ -2,6 +2,8 @@
 using Consolas.Mustache;
 using Resgrid.EmailProcessor.Core;
 using Resgrid.EmailProcessor.Models;
+using Serilog;
+using Serilog.Core;
 using SimpleInjector;
 
 namespace Resgrid.EmailProcessor
@@ -15,11 +17,17 @@ namespace Resgrid.EmailProcessor
 
 		public override void Configure(Container container)
 		{
+			Logger log = new LoggerConfiguration()
+					.MinimumLevel.Error()
+					.WriteTo.Console()
+					.CreateLogger();
+
 			container.Register<IConsole, SystemConsole>();
 			container.Register<IThreadService, ThreadService>();
 
+			//container.Register(typeof(Logger), log);
 			container.Register<IConfigService, ConfigService>();
-
+			container.Register<IFileService, FileService>();
 
 			ViewEngines.Add<MustacheViewEngine>();
 		}

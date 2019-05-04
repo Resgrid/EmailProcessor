@@ -12,7 +12,7 @@ namespace Resgrid.EmailProcessor.Commands
 
 		public TestCommand(IConfigService configService)
 		{
-
+			_configService = configService;
 		}
 
 		public object Execute(TestArgs args)
@@ -22,9 +22,18 @@ namespace Resgrid.EmailProcessor.Commands
 
 			System.Console.WriteLine("Testing Enviorment...");
 
-
-
 			var model = new TestViewModel();
+
+			System.Console.WriteLine("Checking Config...");
+			var config = _configService.LoadSettingsFromFile();
+
+			if (config != null)
+				model.CanLoadConfig = false;
+			else
+				model.CanLoadConfig = true;
+
+			System.Console.WriteLine("Checking Directory...");
+			model.DirectoryAvailable = FileHelper.DoesDirectoryExist("emails");
 
 			return View("Help", model);
 		}
