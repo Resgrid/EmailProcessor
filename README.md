@@ -5,7 +5,7 @@ Resgrid Email Processor is CLI application and service for importing emails from
 
 *********
 
-[![Build status](https://ci.appveyor.com/api/projects/status/github/resgrid/relay?svg=true)](https://ci.appveyor.com/api/projects/status/github/resgrid/relay)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/resgrid/emailprocessor?svg=true)](https://ci.appveyor.com/api/projects/status/github/resgrid/emailprocessor)
 
 About Resgrid
 -------------

@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigService.cs" />
-    <Compile Include="FileHelper.cs" />
+    <Compile Include="FileService.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="NetworkHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

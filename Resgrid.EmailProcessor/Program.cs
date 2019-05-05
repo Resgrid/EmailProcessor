@@ -25,7 +25,7 @@ namespace Resgrid.EmailProcessor
 			container.Register<IConsole, SystemConsole>();
 			container.Register<IThreadService, ThreadService>();
 
-			//container.Register(typeof(Logger), log);
+			container.Register<Logger>(() => log, Lifestyle.Singleton);
 			container.Register<IConfigService, ConfigService>();
 			container.Register<IFileService, FileService>();
 

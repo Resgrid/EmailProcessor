@@ -9,10 +9,12 @@ namespace Resgrid.EmailProcessor.Commands
 	public class TestCommand : Command
 	{
 		private readonly IConfigService _configService;
+		private readonly IFileService _fileService;
 
-		public TestCommand(IConfigService configService)
+		public TestCommand(IConfigService configService, IFileService fileService)
 		{
 			_configService = configService;
+			_fileService = fileService;
 		}
 
 		public object Execute(TestArgs args)
@@ -33,7 +35,9 @@ namespace Resgrid.EmailProcessor.Commands
 				model.CanLoadConfig = true;
 
 			System.Console.WriteLine("Checking Directory...");
-			model.DirectoryAvailable = FileHelper.DoesDirectoryExist("emails");
+			model.DirectoryAvailable = _fileService.DoesDirectoryExist("emails");
+
+
 
 			return View("Help", model);
 		}
