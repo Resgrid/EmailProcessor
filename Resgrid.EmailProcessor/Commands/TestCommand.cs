@@ -2,6 +2,7 @@
 using Resgrid.EmailProcessor.Args;
 using Resgrid.EmailProcessor.Core;
 using Resgrid.EmailProcessor.Models;
+using System;
 
 namespace Resgrid.EmailProcessor.Commands
 {
@@ -19,14 +20,14 @@ namespace Resgrid.EmailProcessor.Commands
 
 		public object Execute(TestArgs args)
 		{
-			System.Console.WriteLine("Resgrid Email Processor");
-			System.Console.WriteLine("-----------------------------------------");
+			Console.WriteLine("Resgrid Email Processor");
+			Console.WriteLine("-----------------------------------------");
 
-			System.Console.WriteLine("Testing Enviorment...");
+			Console.WriteLine("Testing Enviorment...");
 
 			var model = new TestViewModel();
 
-			System.Console.WriteLine("Checking Config...");
+			Console.WriteLine("Checking Config...");
 			var config = _configService.LoadSettingsFromFile();
 
 			if (config != null)
@@ -34,10 +35,32 @@ namespace Resgrid.EmailProcessor.Commands
 			else
 				model.CanLoadConfig = true;
 
-			System.Console.WriteLine("Checking Directory...");
+			Console.WriteLine("Checking Directory...");
 			model.DirectoryAvailable = _fileService.DoesDirectoryExist("emails");
 
+			Console.WriteLine("Checking Directory Permissions...");
 
+			var guid = Guid.NewGuid().ToString();
+			var filePath = _fileService.CreateFile($"{guid}.test", "emails", guid);
+
+			if (String.IsNullOrWhiteSpace(filePath))
+				model.CanCreateFile = false;
+			else
+				model.CanCreateFile = true;
+
+
+			var fileText = _fileService.ReadFile($"{guid}.test");
+
+			if (!String.IsNullOrWhiteSpace(fileText) && fileText.Trim() == guid)
+				model.CanReadFile = true;
+			else
+				model.CanReadFile = false;
+
+			model.CanDeleteFile = _fileService.DeleteFile(filePath);
+			var doesFileExist = _fileService.DoesFileExist(filePath);
+
+			if (doesFileExist)
+				model.CanDeleteFile = false;
 
 			return View("Help", model);
 		}

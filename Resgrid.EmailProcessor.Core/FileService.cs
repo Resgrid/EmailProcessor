@@ -9,6 +9,9 @@ namespace Resgrid.EmailProcessor.Core
 	{
 		bool DoesDirectoryExist(string name);
 		string CreateFile(string fileName, string directory, string text);
+		string ReadFile(string path);
+		bool DeleteFile(string path);
+		bool DoesFileExist(string path);
 	}
 
 	public class FileService: IFileService
@@ -51,6 +54,54 @@ namespace Resgrid.EmailProcessor.Core
 				_logger.Error(ex.ToString());
 
 				return null;
+			}
+		}
+
+		public string ReadFile(string path)
+		{
+			string text;
+
+			try
+			{
+				text = File.ReadAllText(path);
+			}
+			catch (Exception ex)
+			{
+				_logger.Error(ex.ToString());
+
+				return null;
+			}
+
+			return text;
+		}
+
+		public bool DeleteFile(string path)
+		{
+			try
+			{
+				File.Delete(path);
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				_logger.Error(ex.ToString());
+
+				return false;
+			}
+		}
+
+		public bool DoesFileExist(string path)
+		{
+			try
+			{
+				return File.Exists(path);
+			}
+			catch (Exception ex)
+			{
+				_logger.Error(ex.ToString());
+
+				return false;
 			}
 		}
 	}
