@@ -17,6 +17,9 @@ namespace Resgrid.EmailProcessor
 		static void Main(string[] args)
 		{
 			Match(args);
+
+			Console.Write("Processor has finished, press Enter to exit...");
+			Console.ReadLine();
 		}
 
 		public override void Configure(Container container)
@@ -60,6 +63,7 @@ namespace Resgrid.EmailProcessor
 			container.Register<Logger>(() => log, Lifestyle.Singleton);
 			container.Register<IConfigService, ConfigService>();
 			container.Register<IFileService, FileService>();
+			container.Register<INetworkService, NetworkService>();
 
 			ViewEngines.Add<MustacheViewEngine>();
 		}

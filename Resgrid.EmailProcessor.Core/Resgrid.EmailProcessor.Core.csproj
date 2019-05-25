@@ -50,7 +50,7 @@
     <Compile Include="ConfigService.cs" />
     <Compile Include="FileService.cs" />
     <Compile Include="Model\Config.cs" />
-    <Compile Include="NetworkHelper.cs" />
+    <Compile Include="NetworkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

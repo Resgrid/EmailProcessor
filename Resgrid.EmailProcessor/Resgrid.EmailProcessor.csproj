@@ -86,9 +86,10 @@
     <None Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Views\Help.template" />
-    <None Include="Views\Version.template" />
-    <None Include="Views\Default.template" />
+    <EmbeddedResource Include="Views\Help.template" />
+    <EmbeddedResource Include="Views\Version.template" />
+    <EmbeddedResource Include="Views\Default.template" />
+    <EmbeddedResource Include="Views\Test.template" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj">

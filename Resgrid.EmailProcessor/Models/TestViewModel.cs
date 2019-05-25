@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Resgrid.EmailProcessor.Models
 {
@@ -9,6 +10,6 @@ namespace Resgrid.EmailProcessor.Models
 		public bool CanCreateFile { get; set; }
 		public bool CanReadFile { get; set; }
 		public bool CanDeleteFile { get; set; }
-		public Tuple<int, bool> PortsAvailable { get; set; }
+		public List<Tuple<int, bool>> PortsAvailable { get; set; }
 	}
 }

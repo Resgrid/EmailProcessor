@@ -3,9 +3,14 @@ using System.Net.NetworkInformation;
 
 namespace Resgrid.EmailProcessor.Core
 {
-	public static class NetworkHelper
+	public interface INetworkService
 	{
-		public static bool IsPortAvailable(int port)
+		bool IsPortAvailable(int port);
+	}
+
+	public class NetworkService: INetworkService
+	{
+		public bool IsPortAvailable(int port)
 		{
 			// https://stackoverflow.com/questions/570098/in-c-how-to-check-if-a-tcp-port-is-available/570461
 			bool isAvailable = true;

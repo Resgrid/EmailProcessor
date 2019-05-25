@@ -11,11 +11,13 @@ namespace Resgrid.EmailProcessor.Commands
 	{
 		private readonly IConfigService _configService;
 		private readonly IFileService _fileService;
+		private readonly INetworkService _networkService;
 
-		public TestCommand(IConfigService configService, IFileService fileService)
+		public TestCommand(IConfigService configService, IFileService fileService, INetworkService networkService)
 		{
 			_configService = configService;
 			_fileService = fileService;
+			_networkService = networkService;
 		}
 
 		public object Execute(TestArgs args)
@@ -38,6 +40,11 @@ namespace Resgrid.EmailProcessor.Commands
 			Console.WriteLine("Checking Directory...");
 			model.DirectoryAvailable = _fileService.DoesDirectoryExist("emails");
 
+			if (!model.DirectoryAvailable)
+			{
+				_fileService.CreateDirectory("emails");
+			}
+
 			Console.WriteLine("Checking Directory Permissions...");
 
 			var guid = Guid.NewGuid().ToString();
@@ -49,7 +56,7 @@ namespace Resgrid.EmailProcessor.Commands
 				model.CanCreateFile = true;
 
 
-			var fileText = _fileService.ReadFile($"{guid}.test");
+			var fileText = _fileService.ReadFile($"{guid}.test", "emails");
 
 			if (!String.IsNullOrWhiteSpace(fileText) && fileText.Trim() == guid)
 				model.CanReadFile = true;
@@ -62,7 +69,30 @@ namespace Resgrid.EmailProcessor.Commands
 			if (doesFileExist)
 				model.CanDeleteFile = false;
 
-			return View("Help", model);
+			Console.WriteLine("Checking Network Ports...");
+
+			model.PortsAvailable = new System.Collections.Generic.List<Tuple<int, bool>>();
+			string standardPorts;
+
+			if (config != null)
+				standardPorts = config.Ports;
+			else
+				standardPorts = "25, 587";
+
+			var ports = standardPorts.Split(char.Parse(","));
+
+			foreach (var port in ports)
+			{
+				var portConverted = int.Parse(port.Trim());
+				var available = _networkService.IsPortAvailable(portConverted);
+
+				var result = new Tuple<int, bool>(portConverted, available);
+				model.PortsAvailable.Add(result);
+			}
+
+			Console.WriteLine("Results:");
+
+			return View("Test", model);
 		}
 	}
 }

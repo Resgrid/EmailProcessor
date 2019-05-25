@@ -1,0 +1,14 @@
+
+Environment Test Results
+========================
+Load Config Check: {{CanLoadConfig}}
+Directory Exists Check: {{DirectoryAvailable}}
+Create File Check: {{CanCreateFile}}
+Read File Check: {{CanReadFile}}
+Delete File Check: {{CanDeleteFile}}
+
+Ports Check
+===========
+{{#PortsAvailable}}
+    {{.}}
+{{/PortsAvailable}}
