@@ -33,9 +33,9 @@ namespace Resgrid.EmailProcessor.Commands
 			var config = _configService.LoadSettingsFromFile();
 
 			if (config != null)
-				model.CanLoadConfig = false;
-			else
 				model.CanLoadConfig = true;
+			else
+				model.CanLoadConfig = false;
 
 			Console.WriteLine("Checking Directory...");
 			model.DirectoryAvailable = _fileService.DoesDirectoryExist("emails");
