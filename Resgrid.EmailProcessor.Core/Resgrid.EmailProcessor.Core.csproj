@@ -48,7 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigService.cs" />
+    <Compile Include="EmailService.cs" />
     <Compile Include="FileService.cs" />
+    <Compile Include="ImportService.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="NetworkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

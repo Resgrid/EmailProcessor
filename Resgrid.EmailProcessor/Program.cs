@@ -64,6 +64,8 @@ namespace Resgrid.EmailProcessor
 			container.Register<IConfigService, ConfigService>();
 			container.Register<IFileService, FileService>();
 			container.Register<INetworkService, NetworkService>();
+			container.Register<IEmailService, EmailService>();
+			container.Register<IImportService, ImportService>();
 
 			ViewEngines.Add<MustacheViewEngine>();
 		}
