@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace Resgrid.EmailProcessor.Core
 {
 	public interface IImportService
 	{
-		void Run();
+		void Run(CancellationToken token);
 	}
 
-	public class ImportService: IImportService
+	public class ImportService : IImportService
 	{
-		public void Run()
+		public void Run(CancellationToken token)
 		{
+			while (!token.IsCancellationRequested)
+			{
 
+			}
 		}
 	}
 }

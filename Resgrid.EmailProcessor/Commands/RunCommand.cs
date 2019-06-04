@@ -22,20 +22,28 @@ namespace Resgrid.EmailProcessor.Commands
 
 		public object Execute(RunArgs args)
 		{
+			var _running = false;
 			var model = new RunViewModel();
-			var barrier = new Barrier(3);
 
+			// Define the cancellation token.
+			CancellationTokenSource source = new CancellationTokenSource();
+			CancellationToken token = source.Token;
+			
 			// Create the specified number of clients, to carry out test operations, each on their own threads
-			Thread emailThread = new Thread(_emailService.Run);
+			Thread emailThread = new Thread(() => _emailService.Run(token));
 			emailThread.Name = $"Email Service Thread";
 			emailThread.Start();
 
-			Thread importThread = new Thread(_importService.Run);
+			Thread importThread = new Thread(() => _importService.Run(token));
 			importThread.Name = $"Import Service Thread";
 			importThread.Start();
-			
 
-			barrier.SignalAndWait();
+
+			while (_running)
+			{
+				var line = Console.ReadLine();
+				_running = false;
+			}
 
 			return View("Run", model);
 		}
