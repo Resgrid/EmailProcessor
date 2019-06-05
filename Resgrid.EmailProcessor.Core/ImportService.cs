@@ -1,20 +1,20 @@
-﻿using System.Threading;
+﻿using Newtonsoft.Json;
+using System.IO;
+using System.Threading;
 
 namespace Resgrid.EmailProcessor.Core
 {
 	public interface IImportService
 	{
-		void Run(CancellationToken token);
+		bool CreateCall(Model.Message message);
 	}
 
 	public class ImportService : IImportService
 	{
-		public void Run(CancellationToken token)
+		public bool CreateCall(Model.Message message)
 		{
-			while (!token.IsCancellationRequested)
-			{
 
-			}
+			return false;
 		}
 	}
 }

@@ -11,13 +11,13 @@ namespace Resgrid.EmailProcessor.Commands
 	{
 		private readonly IConfigService _configService;
 		private readonly IEmailService _emailService;
-		private readonly IImportService _importService;
+		private readonly IMontiorService _montiorService;
 
-		public RunCommand(IConfigService configService, IEmailService emailService, IImportService importService)
+		public RunCommand(IConfigService configService, IEmailService emailService, IMontiorService montiorService)
 		{
 			_configService = configService;
 			_emailService = emailService;
-			_importService = importService;
+			_montiorService = montiorService;
 		}
 
 		public object Execute(RunArgs args)
@@ -34,7 +34,7 @@ namespace Resgrid.EmailProcessor.Commands
 			emailThread.Name = $"Email Service Thread";
 			emailThread.Start();
 
-			Thread importThread = new Thread(() => _importService.Run(token));
+			Thread importThread = new Thread(() => _montiorService.Run(token));
 			importThread.Name = $"Import Service Thread";
 			importThread.Start();
 
@@ -42,6 +42,7 @@ namespace Resgrid.EmailProcessor.Commands
 			while (_running)
 			{
 				var line = Console.ReadLine();
+				source.Cancel();
 				_running = false;
 			}
 
