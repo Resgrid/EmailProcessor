@@ -124,6 +124,7 @@
     <Compile Include="FileService.cs" />
     <Compile Include="ImportService.cs" />
     <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\InboundMessage.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="MonitorService.cs" />
     <Compile Include="NetworkService.cs" />

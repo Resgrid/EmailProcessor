@@ -41,6 +41,11 @@ namespace Resgrid.EmailProcessor.Core
 			message.Timestamp = DateTime.UtcNow;
 			message.MailMessage = mailMessage;
 
+
+			var inboundMessage = new InboundMessage();
+			//inboundMessage.From = mailMessage.From[0]..Parse
+
+
 			var fileText = JsonConvert.SerializeObject(message);
 			var filePath = _fileService.CreateFile($"{message.Id.ToString()}.rgm", "emails", fileText);
 

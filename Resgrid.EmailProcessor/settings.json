@@ -3,5 +3,13 @@
   "Username": "TEST",
   "Password": "TEST",
   "Debug": false,
-  "Ports": "25, 587"
+  "Ports": "25, 587",
+  "DispatchDomain": "dispatch.resgrid.com",
+  "DispatchTestDomain": "testdispatch.resgrid.com",
+  "ListsDomain": "lists.resgrid.com",
+  "ListsTestDomain": "testlists.resgrid.com",
+  "GroupsDomain": "groups.resgrid.com",
+  "GroupsTestDomain": "testgroups.resgrid.com",
+  "GroupMessageDomain": "gmsg.resgrid.com",
+  "GroupTestMessageDomain": "testgmsg.resgrid.com"
 }
