@@ -25,7 +25,7 @@ namespace Resgrid.EmailProcessor.Commands
 			Console.WriteLine("Resgrid Email Processor");
 			Console.WriteLine("-----------------------------------------");
 
-			Console.WriteLine("Testing Enviorment...");
+			Console.WriteLine("Testing Environment...");
 
 			var model = new TestViewModel();
 

@@ -13,6 +13,7 @@ namespace Resgrid.EmailProcessor.Core
 		bool DeleteFile(string path);
 		bool DoesFileExist(string path);
 		void CreateDirectory(string name);
+		string GetFullPath(string name);
 	}
 
 	public class FileService: IFileService
@@ -36,6 +37,13 @@ namespace Resgrid.EmailProcessor.Core
 			var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace("file:\\", "");
 
 			Directory.CreateDirectory($"{path}\\{name}\\");
+		}
+
+		public string GetFullPath(string name)
+		{
+			var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace("file:\\", "");
+
+			return $"{path}\\{name}\\";
 		}
 
 		public string CreateFile(string fileName, string directory, string text)

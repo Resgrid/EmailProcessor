@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Resgrid.EmailProcessor.Core.Model;
-using Serilog.Core;
 using System;
 using System.IO;
 
@@ -13,13 +12,6 @@ namespace Resgrid.EmailProcessor.Core
 
 	public class ConfigService: IConfigService
 	{
-		private readonly Logger _logger;
-
-		public ConfigService(Logger logger)
-		{
-			_logger = logger;
-		}
-
 		public Config LoadSettingsFromFile()
 		{
 			var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace("file:\\", "");
@@ -32,7 +24,7 @@ namespace Resgrid.EmailProcessor.Core
 			}
 			catch (Exception ex)
 			{
-				_logger.Error(ex.ToString());
+				Console.WriteLine(ex.ToString());
 				return null;
 			}
 		}

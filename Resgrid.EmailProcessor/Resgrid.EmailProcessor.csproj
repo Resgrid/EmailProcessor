@@ -74,6 +74,7 @@
     <Compile Include="Commands\RunCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
+    <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestViewModel.cs" />
     <Compile Include="Models\ThreadService.cs" />
     <Compile Include="Models\VersionViewModel.cs" />
