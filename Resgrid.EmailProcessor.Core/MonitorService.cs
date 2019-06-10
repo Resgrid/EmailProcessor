@@ -52,7 +52,7 @@ namespace Resgrid.EmailProcessor.Core
 
 				try
 				{
-					var result = _importService.CreateCall(message);
+					var result = _importService.CreateCall(message).Result;
 
 					if (result)
 						File.Move(newPath, Path.ChangeExtension(e.FullPath, ".rgc"));

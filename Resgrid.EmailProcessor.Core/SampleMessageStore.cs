@@ -8,6 +8,7 @@ using SmtpServer.Mail;
 using SmtpServer.Protocol;
 using SmtpServer.Storage;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,7 +44,51 @@ namespace Resgrid.EmailProcessor.Core
 
 
 			var inboundMessage = new InboundMessage();
-			//inboundMessage.From = mailMessage.From[0]..Parse
+
+			if (mailMessage.From != null && mailMessage.From.Count > 0)
+			{
+				var from = ((MailboxAddress)mailMessage.From[0]);
+				inboundMessage.From = from.Address;
+				inboundMessage.FromFull = new FromFull() { Email = from.Address, Name = from.Name };
+			}
+
+			if (mailMessage.To != null && mailMessage.To.Count > 0)
+			{
+				foreach (var to in mailMessage.To)
+				{
+					var toAddress = (MailboxAddress)to;
+
+					if (String.IsNullOrWhiteSpace(inboundMessage.To))
+						inboundMessage.To = toAddress.Address;
+
+					inboundMessage.ToFull.Add(new ToFull() { Email = toAddress.Address, Name = toAddress.Name });
+				}
+			}
+
+			var attachments = new List<MimePart>();
+			var multiparts = new List<Multipart>();
+			var iter = new MimeIterator(mailMessage);
+
+			// collect our list of attachments and their parent multiparts
+			while (iter.MoveNext())
+			{
+				var multipart = iter.Parent as Multipart;
+				var part = iter.Current as MimePart;
+
+				if (multipart != null && part != null && part.IsAttachment)
+				{
+					// keep track of each attachment's parent multipart
+					multiparts.Add(multipart);
+					attachments.Add(part);
+				}
+			}
+
+			// now remove each attachment from its parent multipart...
+			for (int i = 0; i < attachments.Count; i++)
+				multiparts[i].Remove(attachments[i]);
+
+			inboundMessage.TextBody = mailMessage.GetTextBody(MimeKit.Text.TextFormat.Plain);
+			inboundMessage.HtmlBody = mailMessage.HtmlBody;
 
 
 			var fileText = JsonConvert.SerializeObject(message);
