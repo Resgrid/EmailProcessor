@@ -9,6 +9,7 @@ using SmtpServer.Protocol;
 using SmtpServer.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,9 +41,7 @@ namespace Resgrid.EmailProcessor.Core
 			message.RetryCount = 0;
 			message.ErrorReason = "";
 			message.Timestamp = DateTime.UtcNow;
-			message.MailMessage = mailMessage;
-
-
+			
 			var inboundMessage = new InboundMessage();
 
 			if (mailMessage.From != null && mailMessage.From.Count > 0)
@@ -89,7 +88,25 @@ namespace Resgrid.EmailProcessor.Core
 
 			inboundMessage.TextBody = mailMessage.GetTextBody(MimeKit.Text.TextFormat.Plain);
 			inboundMessage.HtmlBody = mailMessage.HtmlBody;
+			inboundMessage.Subject = mailMessage.Subject;
+			inboundMessage.MessageID = mailMessage.MessageId;
 
+			inboundMessage.Attachments = new List<Attachment>();
+			foreach (var attachment in attachments)
+			{
+				var att = new Attachment();
+
+				StreamReader reader = new StreamReader(attachment.Content.Stream);
+				att.Content = reader.ReadToEnd();
+
+				att.Name = attachment.FileName;
+				att.ContentID = attachment.ContentId;
+				att.ContentType = attachment.ContentType.MimeType;
+
+				inboundMessage.Attachments.Add(att);
+			}
+
+			message.InboundMessage = inboundMessage;
 
 			var fileText = JsonConvert.SerializeObject(message);
 			var filePath = _fileService.CreateFile($"{message.Id.ToString()}.rgm", "emails", fileText);
