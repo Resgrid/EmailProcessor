@@ -14,6 +14,7 @@ namespace Resgrid.EmailProcessor.Core
 		bool DoesFileExist(string path);
 		void CreateDirectory(string name);
 		string GetFullPath(string name);
+		bool IsFileLocked(FileInfo file);
 	}
 
 	public class FileService: IFileService
@@ -44,6 +45,33 @@ namespace Resgrid.EmailProcessor.Core
 			var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace("file:\\", "");
 
 			return $"{path}\\{name}\\";
+		}
+
+		public bool IsFileLocked(FileInfo file)
+		{
+			// From https://stackoverflow.com/questions/876473/is-there-a-way-to-check-if-a-file-is-in-use
+			FileStream stream = null;
+
+			try
+			{
+				stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+			}
+			catch (IOException)
+			{
+				//the file is unavailable because it is:
+				//still being written to
+				//or being processed by another thread
+				//or does not exist (has already been processed)
+				return true;
+			}
+			finally
+			{
+				if (stream != null)
+					stream.Close();
+			}
+
+			//file is not locked
+			return false;
 		}
 
 		public string CreateFile(string fileName, string directory, string text)

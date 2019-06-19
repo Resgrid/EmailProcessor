@@ -26,7 +26,12 @@ namespace Resgrid.EmailProcessor.Commands
 
 		public object Execute(RunArgs args)
 		{
-			var _running = false;
+			Console.WriteLine("Resgrid Email Processor");
+			Console.WriteLine("-----------------------------------------");
+
+			Console.WriteLine("Starting Up");
+
+			var _running = true;
 			var model = new RunViewModel();
 
 			var config = _configService.LoadSettingsFromFile();
@@ -64,13 +69,13 @@ namespace Resgrid.EmailProcessor.Commands
 				importThread.Name = $"Import Service Thread";
 				importThread.Start();
 
+				System.Console.WriteLine("Email Processor is Running...");
+				System.Console.WriteLine("Press any key to stop");
 
-				while (_running)
-				{
-					var line = Console.ReadLine();
-					source.Cancel();
-					_running = false;
-				}
+				var line = Console.ReadLine();
+				source.Cancel();
+				_running = false;
+
 			}
 
 			if (telemetryClient != null)

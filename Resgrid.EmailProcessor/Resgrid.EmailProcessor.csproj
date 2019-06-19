@@ -107,6 +107,7 @@
     <EmbeddedResource Include="Views\Version.template" />
     <EmbeddedResource Include="Views\Default.template" />
     <EmbeddedResource Include="Views\Test.template" />
+    <EmbeddedResource Include="Views\Run.template" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj">

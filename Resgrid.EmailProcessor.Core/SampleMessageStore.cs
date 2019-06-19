@@ -53,6 +53,7 @@ namespace Resgrid.EmailProcessor.Core
 
 			if (mailMessage.To != null && mailMessage.To.Count > 0)
 			{
+				inboundMessage.ToFull = new List<ToFull>();
 				foreach (var to in mailMessage.To)
 				{
 					var toAddress = (MailboxAddress)to;
