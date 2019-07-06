@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.Providers.ApiClient
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor.Core", "Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj", "{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor.Tests", "Resgrid.EmailProcessor.Tests\Resgrid.EmailProcessor.Tests.csproj", "{2D9E570C-C282-4598-9D2A-CFED5B086B97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
