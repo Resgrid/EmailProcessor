@@ -144,7 +144,7 @@
     <Compile Include="MonitorService.cs" />
     <Compile Include="NetworkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleMessageStore.cs" />
+    <Compile Include="MessageStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

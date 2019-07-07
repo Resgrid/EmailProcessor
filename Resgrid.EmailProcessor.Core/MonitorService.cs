@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace Resgrid.EmailProcessor.Core
@@ -51,7 +52,7 @@ namespace Resgrid.EmailProcessor.Core
 
 		private void CreateTimer()
 		{
-			_timer = new System.Timers.Timer(1000);
+			_timer = new System.Timers.Timer(250);
 			_timer.Elapsed += OnTimedEvent;
 			_timer.AutoReset = true;
 			_timer.Enabled = true;
@@ -92,7 +93,7 @@ namespace Resgrid.EmailProcessor.Core
 			var path = _fileService.GetFullPath("emails");
 			var files = Directory.GetFiles(path, "*.rgm", SearchOption.AllDirectories);
 
-			foreach (var file in files)
+			Parallel.ForEach(files, file =>
 			{
 				var newPath = Path.ChangeExtension(file, ".rgi");
 				File.Move(file, newPath);
@@ -111,7 +112,7 @@ namespace Resgrid.EmailProcessor.Core
 				}
 
 				File.Move(newPath, Path.ChangeExtension(file, ".rgm"));
-			}
+			});
 
 
 			var importFiles = Directory.GetFiles(path, "*.rgi", SearchOption.AllDirectories);

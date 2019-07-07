@@ -16,7 +16,7 @@ namespace Resgrid.EmailProcessor.Core
 			var options = new SmtpServerOptionsBuilder()
 							.ServerName("localhost")
 							.Port(25, 587)
-							.MessageStore(new SampleMessageStore())
+							.MessageStore(new MessageStore())
 							.Build();
 
 			var smtpServer = new SmtpServer.SmtpServer(options);

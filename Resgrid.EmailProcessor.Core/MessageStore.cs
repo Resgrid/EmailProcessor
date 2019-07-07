@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Resgrid.EmailProcessor.Core
 {
-	public class SampleMessageStore : MessageStore
+	public class MessageStore : SmtpServer.Storage.MessageStore
 	{
 		private static IConfigService _configService;
 		private static IFileService _fileService;
@@ -44,26 +44,34 @@ namespace Resgrid.EmailProcessor.Core
 			
 			var inboundMessage = new InboundMessage();
 
+			string fromAddress = String.Empty;
 			if (mailMessage.From != null && mailMessage.From.Count > 0)
 			{
 				var from = ((MailboxAddress)mailMessage.From[0]);
 				inboundMessage.From = from.Address;
+				fromAddress = from.Address;
 				inboundMessage.FromFull = new FromFull() { Email = from.Address, Name = from.Name };
 			}
 
+			string toAddress = String.Empty;
 			if (mailMessage.To != null && mailMessage.To.Count > 0)
 			{
 				inboundMessage.ToFull = new List<ToFull>();
 				foreach (var to in mailMessage.To)
 				{
-					var toAddress = (MailboxAddress)to;
+					var toAdd = (MailboxAddress)to;
 
 					if (String.IsNullOrWhiteSpace(inboundMessage.To))
-						inboundMessage.To = toAddress.Address;
+					{
+						inboundMessage.To = toAdd.Address;
+						toAddress = toAdd.Address;
+					}
 
-					inboundMessage.ToFull.Add(new ToFull() { Email = toAddress.Address, Name = toAddress.Name });
+					inboundMessage.ToFull.Add(new ToFull() { Email = toAdd.Address, Name = toAdd.Name });
 				}
 			}
+
+			_logger.Information("Email Recieved {id} {fromAddress} {toAddress}", message.Id, fromAddress, toAddress);
 
 			var attachments = new List<MimePart>();
 			var multiparts = new List<Multipart>();
@@ -113,9 +121,15 @@ namespace Resgrid.EmailProcessor.Core
 			var filePath = _fileService.CreateFile($"{message.Id.ToString()}.rgm", "emails", fileText);
 
 			if (!String.IsNullOrWhiteSpace(filePath))
+			{
+				_logger.Information("Email Saved {id}", message.Id);
 				return Task.FromResult(SmtpResponse.Ok);
+			}
 			else
+			{
+				_logger.Information("Email Not Saved {id}", message.Id);
 				return Task.FromResult(new SmtpResponse(SmtpReplyCode.MessageTimeout));
+			}
 		}
 
 		private void Init()
