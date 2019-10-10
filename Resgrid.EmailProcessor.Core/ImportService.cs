@@ -1,13 +1,7 @@
-﻿using Newtonsoft.Json;
-using Resgrid.ApiClient.V3;
-using Resgrid.ApiClient.V3.Models;
+﻿using Resgrid.ApiClient.V3;
 using Resgrid.EmailProcessor.Core.Model;
 using Serilog.Core;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Resgrid.EmailProcessor.Core

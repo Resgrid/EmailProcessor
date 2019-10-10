@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace Resgrid.EmailProcessor.Core
 {
 	public interface IMontiorService
 	{
-		void Run(CancellationToken token);
+		void Run(CancellationToken token, Logger log);
 	}
 
 	public class MonitorService : IMontiorService
@@ -18,6 +19,7 @@ namespace Resgrid.EmailProcessor.Core
 		private readonly IFileService _fileService;
 		private readonly IImportService _importService;
 
+		private Logger _log;
 		private System.Timers.Timer _timer;
 		private HashSet<string> _files;
 
@@ -29,25 +31,16 @@ namespace Resgrid.EmailProcessor.Core
 			_files = new HashSet<string>();
 		}
 
-		public void Run(CancellationToken token)
+		public void Run(CancellationToken token, Logger log)
 		{
-			var watcher = new System.IO.FileSystemWatcher();
-			watcher.Path = _fileService.GetFullPath("emails");
-			watcher.Filter = "*.rgm";
-			watcher.NotifyFilter = NotifyFilters.LastWrite;
-			watcher.Changed += Watcher_Changed;
+			_log = log;
 
-			watcher.EnableRaisingEvents = true;
+			CreateTimer();
 
 			while (!token.IsCancellationRequested)
 			{
 				Thread.Sleep(500);
 			}
-
-			watcher.EnableRaisingEvents = false;
-			watcher.Changed -= Watcher_Changed;
-			watcher.Dispose();
-			watcher = null;
 		}
 
 		private void CreateTimer()
@@ -56,36 +49,6 @@ namespace Resgrid.EmailProcessor.Core
 			_timer.Elapsed += OnTimedEvent;
 			_timer.AutoReset = true;
 			_timer.Enabled = true;
-		}
-
-		private void Watcher_Changed(object sender, FileSystemEventArgs e)
-		{
-			if (new FileInfo(e.FullPath).Length > 0)
-			{
-				if (!_files.Contains(Path.GetFileName(e.FullPath)))
-				{
-					_files.Add(Path.GetFileName(e.FullPath));
-
-					var newPath = Path.ChangeExtension(e.FullPath, ".rgi");
-					File.Move(e.FullPath, newPath);
-					var message = JsonConvert.DeserializeObject<Model.Message>(File.ReadAllText(newPath));
-
-					try
-					{
-						var result = _importService.CreateCall(message).Result;
-
-						if (result)
-							File.Move(newPath, Path.ChangeExtension(e.FullPath, ".rgc"));
-					}
-					catch (Exception ex)
-					{
-
-					}
-
-					File.Move(newPath, Path.ChangeExtension(e.FullPath, ".rgm"));
-					return;
-				}
-			}
 		}
 
 		private void OnTimedEvent(Object source, ElapsedEventArgs e)

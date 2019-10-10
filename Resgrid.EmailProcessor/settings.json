@@ -2,6 +2,7 @@
   "ApiUrl": "https://api.resgrid.com",
   "Username": "TEST",
   "Password": "TEST",
+  "CacheDepartmentId": "-1",
   "Debug": false,
   "Ports": "25, 587",
   "DispatchDomain": "dispatch.resgrid.com",

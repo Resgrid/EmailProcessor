@@ -1,5 +1,5 @@
-﻿using Consolas.Core;
-using Consolas.Mustache;
+﻿using Consolas2.Core;
+using Consolas2.ViewEngines;
 using Newtonsoft.Json;
 using Resgrid.EmailProcessor.Core;
 using Resgrid.EmailProcessor.Core.Model;
@@ -28,7 +28,7 @@ namespace Resgrid.EmailProcessor
 
 			/* Ugly I know, but trying to keep this as low level as possible. If the config
 			 * doesn't load just log errors. Won't use the actual config service. 
-			 */ 
+			 */
 			try
 			{
 				Config config = LoadSettingsFromFile();
@@ -55,7 +55,7 @@ namespace Resgrid.EmailProcessor
 					.WriteTo.Console()
 					.CreateLogger();
 			}
-			
+
 
 			container.Register<IConsole, SystemConsole>();
 			container.Register<IThreadService, ThreadService>();
@@ -68,7 +68,7 @@ namespace Resgrid.EmailProcessor
 			container.Register<IImportService, ImportService>();
 			container.Register<IMontiorService, MonitorService>();
 
-			ViewEngines.Add<MustacheViewEngine>();
+			ViewEngines.Add<StubbleViewEngine>();
 		}
 
 		private static Config LoadSettingsFromFile()

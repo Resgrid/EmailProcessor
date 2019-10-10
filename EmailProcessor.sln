@@ -3,15 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor", "Resgrid.EmailProcessor\Resgrid.EmailProcessor.csproj", "{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{6E18955C-83AA-4133-B0B3-C180FED8C083}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.Providers.ApiClient", "Resgrid.Providers.ApiClient\Resgrid.Providers.ApiClient.csproj", "{3FD1E731-623F-4EED-B6B9-50FCB15F2874}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor.Core", "Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj", "{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resgrid.EmailProcessor.Tests", "Resgrid.EmailProcessor.Tests\Resgrid.EmailProcessor.Tests.csproj", "{2D9E570C-C282-4598-9D2A-CFED5B086B97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resgrid.EmailProcessor", "Resgrid.EmailProcessor\Resgrid.EmailProcessor.csproj", "{4DC37970-90C1-4D0E-88FB-9527F447B07D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resgrid.EmailProcessor.Core", "Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj", "{D9B7D689-257D-4D66-A74F-0C9834C0CBAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,28 +15,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B8290EB-090B-40C2-B8D9-4C4E68A440BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FD1E731-623F-4EED-B6B9-50FCB15F2874}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE75F420-C43D-4C84-B28F-9B40ACCB8F93}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D9E570C-C282-4598-9D2A-CFED5B086B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC37970-90C1-4D0E-88FB-9527F447B07D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC37970-90C1-4D0E-88FB-9527F447B07D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC37970-90C1-4D0E-88FB-9527F447B07D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC37970-90C1-4D0E-88FB-9527F447B07D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9B7D689-257D-4D66-A74F-0C9834C0CBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9B7D689-257D-4D66-A74F-0C9834C0CBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9B7D689-257D-4D66-A74F-0C9834C0CBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9B7D689-257D-4D66-A74F-0C9834C0CBAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{3FD1E731-623F-4EED-B6B9-50FCB15F2874} = {6E18955C-83AA-4133-B0B3-C180FED8C083}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A5355A4-E969-4514-8E72-0D7BC9B1EB8B}

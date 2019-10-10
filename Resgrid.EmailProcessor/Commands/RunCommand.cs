@@ -1,10 +1,12 @@
-﻿using Consolas.Core;
+﻿using Consolas2.Core;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
 using Resgrid.EmailProcessor.Args;
 using Resgrid.EmailProcessor.Core;
 using Resgrid.EmailProcessor.Models;
+using Serilog;
+using Serilog.Core;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,6 +56,23 @@ namespace Resgrid.EmailProcessor.Commands
 				catch { }
 			}
 
+			Logger log;
+
+			if (config.Debug)
+			{
+				log = new LoggerConfiguration()
+					.MinimumLevel.Debug()
+					.WriteTo.Console()
+					.CreateLogger();
+			}
+			else
+			{
+				log = new LoggerConfiguration()
+					.MinimumLevel.Error()
+					.WriteTo.Console()
+					.CreateLogger();
+			}
+
 			using (InitializeDependencyTracking(configuration))
 			{
 				// Define the cancellation token.
@@ -61,11 +80,11 @@ namespace Resgrid.EmailProcessor.Commands
 				CancellationToken token = source.Token;
 
 				// Create the specified number of clients, to carry out test operations, each on their own threads
-				Thread emailThread = new Thread(() => _emailService.Run(token));
+				Thread emailThread = new Thread(() => _emailService.Run(token, log));
 				emailThread.Name = $"Email Service Thread";
 				emailThread.Start();
 
-				Thread importThread = new Thread(() => _montiorService.Run(token));
+				Thread importThread = new Thread(() => _montiorService.Run(token, log));
 				importThread.Name = $"Import Service Thread";
 				importThread.Start();
 
@@ -74,6 +93,9 @@ namespace Resgrid.EmailProcessor.Commands
 
 				var line = Console.ReadLine();
 				source.Cancel();
+				System.Console.WriteLine("Shutting down, please wait...");
+				Task.Delay(2000).Wait();
+
 				_running = false;
 
 			}

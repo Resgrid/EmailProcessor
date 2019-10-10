@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Consolas.Core;
+using Consolas2.Core;
 using Resgrid.EmailProcessor.Args;
 using Resgrid.EmailProcessor.Models;
 

@@ -1,4 +1,5 @@
-﻿using SmtpServer;
+﻿using Serilog.Core;
+using SmtpServer;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,12 +7,12 @@ namespace Resgrid.EmailProcessor.Core
 {
 	public interface IEmailService
 	{
-		Task<bool> Run(CancellationToken token);
+		Task<bool> Run(CancellationToken token, Logger log);
 	}
 
 	public class EmailService: IEmailService
 	{
-		public async Task<bool> Run(CancellationToken token)
+		public async Task<bool> Run(CancellationToken token, Logger log)
 		{
 			var options = new SmtpServerOptionsBuilder()
 							.ServerName("localhost")
