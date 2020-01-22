@@ -6,6 +6,8 @@
 		public string Username { get; set; }
 		public string Password { get; set; }
 		public int CacheDepartmentId { get; set; }
+		public string SignalRChannel { get; set; }
+		public string SignalRHub { get; set; }
 		public bool Debug { get; set; }
 		public string DebugKey { get; set; }
 		public string Ports { get; set; }

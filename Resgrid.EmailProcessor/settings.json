@@ -3,6 +3,8 @@
   "Username": "TEST",
   "Password": "TEST",
   "CacheDepartmentId": "-1",
+  "SignalRChannel": "/signalr",
+  "SignalRHub": "eventingHub",
   "Debug": false,
   "Ports": "25, 587",
   "DispatchDomain": "dispatch.resgrid.com",

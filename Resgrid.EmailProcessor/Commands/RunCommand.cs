@@ -18,12 +18,14 @@ namespace Resgrid.EmailProcessor.Commands
 		private readonly IConfigService _configService;
 		private readonly IEmailService _emailService;
 		private readonly IMontiorService _montiorService;
+		private readonly IDataService _dataService;
 
-		public RunCommand(IConfigService configService, IEmailService emailService, IMontiorService montiorService)
+		public RunCommand(IConfigService configService, IEmailService emailService, IMontiorService montiorService, IDataService dataService)
 		{
 			_configService = configService;
 			_emailService = emailService;
 			_montiorService = montiorService;
+			_dataService = dataService;
 		}
 
 		public object Execute(RunArgs args)
@@ -79,7 +81,10 @@ namespace Resgrid.EmailProcessor.Commands
 				CancellationTokenSource source = new CancellationTokenSource();
 				CancellationToken token = source.Token;
 
-				// Create the specified number of clients, to carry out test operations, each on their own threads
+				Thread dataThread = new Thread(() => _dataService.Run(token, log));
+				dataThread.Name = $"Data Service Thread";
+				dataThread.Start();
+
 				Thread emailThread = new Thread(() => _emailService.Run(token, log));
 				emailThread.Name = $"Email Service Thread";
 				emailThread.Start();
