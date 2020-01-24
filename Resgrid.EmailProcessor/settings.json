@@ -5,7 +5,7 @@
   "CacheDepartmentId": "-1",
   "SignalRChannel": "/signalr",
   "SignalRHub": "eventingHub",
-  "Debug": false,
+  "Debug": true,
   "Ports": "25, 587",
   "DispatchDomain": "dispatch.resgrid.com",
   "DispatchTestDomain": "testdispatch.resgrid.com",

@@ -15,6 +15,7 @@ namespace Resgrid.EmailProcessor.Core
 		void CreateDirectory(string name);
 		string GetFullPath(string name);
 		bool IsFileLocked(FileInfo file);
+		bool SetupDirectories();
 	}
 
 	public class FileService: IFileService
@@ -24,6 +25,24 @@ namespace Resgrid.EmailProcessor.Core
 		public FileService(Logger logger)
 		{
 			_logger = logger;
+		}
+
+		public bool SetupDirectories()
+		{
+			try
+			{
+				if (!DoesDirectoryExist("emails"))
+				{
+					CreateDirectory("emails");
+				}
+			}
+			catch (Exception ex)
+			{
+
+				return false;
+			}
+
+			return true;
 		}
 
 		public bool DoesDirectoryExist(string name)

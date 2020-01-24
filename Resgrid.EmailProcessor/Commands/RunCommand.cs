@@ -19,13 +19,15 @@ namespace Resgrid.EmailProcessor.Commands
 		private readonly IEmailService _emailService;
 		private readonly IMontiorService _montiorService;
 		private readonly IDataService _dataService;
+		private readonly IFileService _fileService;
 
-		public RunCommand(IConfigService configService, IEmailService emailService, IMontiorService montiorService, IDataService dataService)
+		public RunCommand(IConfigService configService, IEmailService emailService, IMontiorService montiorService, IDataService dataService, IFileService fileService)
 		{
 			_configService = configService;
 			_emailService = emailService;
 			_montiorService = montiorService;
 			_dataService = dataService;
+			_fileService = fileService;
 		}
 
 		public object Execute(RunArgs args)
@@ -39,6 +41,8 @@ namespace Resgrid.EmailProcessor.Commands
 			var model = new RunViewModel();
 
 			var config = _configService.LoadSettingsFromFile();
+
+			_fileService.SetupDirectories();
 
 			TelemetryConfiguration configuration = null;
 			TelemetryClient telemetryClient = null;
@@ -81,7 +85,7 @@ namespace Resgrid.EmailProcessor.Commands
 				CancellationTokenSource source = new CancellationTokenSource();
 				CancellationToken token = source.Token;
 
-				Thread dataThread = new Thread(() => _dataService.Run(token, log));
+				Thread dataThread = new Thread(() => _dataService.Run(token, log, config));
 				dataThread.Name = $"Data Service Thread";
 				dataThread.Start();
 

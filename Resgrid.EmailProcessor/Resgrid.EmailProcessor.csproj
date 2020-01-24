@@ -36,4 +36,10 @@
     <ProjectReference Include="..\Resgrid.EmailProcessor.Core\Resgrid.EmailProcessor.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

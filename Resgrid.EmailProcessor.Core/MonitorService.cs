@@ -3,6 +3,7 @@ using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -55,26 +56,36 @@ namespace Resgrid.EmailProcessor.Core
 		{
 			var path = _fileService.GetFullPath("emails");
 			var files = Directory.GetFiles(path, "*.rgm", SearchOption.AllDirectories);
+			_log.Information($"MonitorService::Number of rgm files: {files.Count()}");
 
 			Parallel.ForEach(files, file =>
 			{
+				_log.Information($"MonitorService::Processing file {file}");
+
 				var newPath = Path.ChangeExtension(file, ".rgi");
 				File.Move(file, newPath);
+				_log.Information($"MonitorService::Moving file to rgi {file}");
+
 				var message = JsonConvert.DeserializeObject<Model.Message>(File.ReadAllText(newPath));
+				_log.Information($"MonitorService::Parsing file {file}");
 
 				try
 				{
 					var result = _importService.CreateCall(message).Result;
+					_log.Information($"MonitorService::Call Created");
 
 					if (result)
+					{
 						File.Move(newPath, Path.ChangeExtension(file, ".rgc"));
+						_log.Information($"MonitorService::Moving file to rgc {file}");
+					}
 				}
 				catch (Exception ex)
 				{
+					_log.Error(ex, $"MonitorService::Error Creating Call");
 
+					File.Move(newPath, Path.ChangeExtension(file, ".rgm"));
 				}
-
-				File.Move(newPath, Path.ChangeExtension(file, ".rgm"));
 			});
 
 

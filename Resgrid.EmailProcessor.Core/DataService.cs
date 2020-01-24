@@ -9,7 +9,7 @@ namespace Resgrid.EmailProcessor.Core
 {
 	public interface IDataService
 	{
-		Task<bool> Run(CancellationToken token, Logger log);
+		Task<bool> Run(CancellationToken token, Logger log, Config config);
 	}
 
 	public class DataService: IDataService
@@ -18,15 +18,15 @@ namespace Resgrid.EmailProcessor.Core
 		private Logger _log;
 		private Dictionary<int, DepartmentDataProvider> _data;
 
-		DataService(Config config)
+		public DataService(Config config)
 		{
 			_data = new Dictionary<int, DepartmentDataProvider>();
-			_config = config;
 		}
 
-		public async Task<bool> Run(CancellationToken token, Logger log)
+		public async Task<bool> Run(CancellationToken token, Logger log, Config config)
 		{
 			_log = log;
+			_config = config;
 
 			ResgridV3ApiClient.Init(_config.ApiUrl, _config.Username, _config.Password);
 
