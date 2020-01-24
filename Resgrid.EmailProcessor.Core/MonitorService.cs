@@ -20,6 +20,7 @@ namespace Resgrid.EmailProcessor.Core
 		private readonly IFileService _fileService;
 		private readonly IImportService _importService;
 
+		private const int _timerLength = 250;
 		private Logger _log;
 		private System.Timers.Timer _timer;
 		private HashSet<string> _files;
@@ -36,17 +37,23 @@ namespace Resgrid.EmailProcessor.Core
 		{
 			_log = log;
 
+			_log.Information($"MonitorService::Starting Run");
+
 			CreateTimer();
 
 			while (!token.IsCancellationRequested)
 			{
 				Thread.Sleep(500);
 			}
+
+			_log.Information($"MonitorService::Stopping Run");
 		}
 
 		private void CreateTimer()
 		{
-			_timer = new System.Timers.Timer(250);
+			_log.Information($"MonitorService::Starting Timer with a length of {_timerLength}ms");
+
+			_timer = new System.Timers.Timer(_timerLength);
 			_timer.Elapsed += OnTimedEvent;
 			_timer.AutoReset = true;
 			_timer.Enabled = true;
@@ -88,28 +95,37 @@ namespace Resgrid.EmailProcessor.Core
 				}
 			});
 
-
+			// Processing rgi files that failed to processed or renamed to rgm or rgc
 			var importFiles = Directory.GetFiles(path, "*.rgi", SearchOption.AllDirectories);
+			_log.Information($"MonitorService::Number of rgi files: {importFiles.Count()}");
 
 			foreach (var file in importFiles)
 			{
 				if (!_fileService.IsFileLocked(new FileInfo(file)))
 				{
 					var message = JsonConvert.DeserializeObject<Model.Message>(File.ReadAllText(file));
+					_log.Information($"MonitorService::Parsing rgi file {file}");
 
 					try
 					{
 						var result = _importService.CreateCall(message).Result;
+						_log.Information($"MonitorService::RGI Call Created");
 
 						if (result)
+						{
 							File.Move(file, Path.ChangeExtension(file, ".rgc"));
+							_log.Information($"MonitorService::Moving rgi file to rgc {file}");
+						}
 					}
 					catch (Exception ex)
 					{
-
+						_log.Error(ex, $"MonitorService::Error Creating RGI Call");
+						File.Move(file, Path.ChangeExtension(file, ".rgm"));
 					}
-
-					File.Move(file, Path.ChangeExtension(file, ".rgm"));
+				}
+				else
+				{
+					_log.Information($"MonitorService::RGI File locked {file}");
 				}
 			}
 		}
