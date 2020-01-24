@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Resgrid.EmailProcessor": {
+      "commandName": "Project",
+      "commandLineArgs": "run"
+    }
+  }
+}

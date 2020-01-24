@@ -6,6 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Default.template" />
+    <None Remove="Views\Help.template" />
+    <None Remove="Views\Run.template" />
+    <None Remove="Views\Test.template" />
+    <None Remove="Views\Version.template" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Default.template" />
+    <EmbeddedResource Include="Views\Help.template" />
+    <EmbeddedResource Include="Views\Run.template" />
+    <EmbeddedResource Include="Views\Test.template" />
+    <EmbeddedResource Include="Views\Version.template" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Consolas2" Version="1.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.11.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.11.1" />
