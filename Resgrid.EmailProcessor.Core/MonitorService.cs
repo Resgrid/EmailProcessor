@@ -78,13 +78,18 @@ namespace Resgrid.EmailProcessor.Core
 
 				try
 				{
-					var result = _importService.CreateCall(message).Result;
-					_log.Information($"MonitorService::Call Created");
+					var result = _importService.ImportMessage(message).Result;
 
 					if (result)
 					{
+						_log.Information($"MonitorService::Message Imported");
 						File.Move(newPath, Path.ChangeExtension(file, ".rgc"));
 						_log.Information($"MonitorService::Moving file to rgc {file}");
+					}
+					else
+					{
+						File.Move(newPath, Path.ChangeExtension(file, ".rgm"));
+						_log.Information($"MonitorService::Message Not Imported, Moving file to rgm {file}");
 					}
 				}
 				catch (Exception ex)
@@ -108,13 +113,18 @@ namespace Resgrid.EmailProcessor.Core
 
 					try
 					{
-						var result = _importService.CreateCall(message).Result;
-						_log.Information($"MonitorService::RGI Call Created");
+						var result = _importService.ImportMessage(message).Result;
 
 						if (result)
 						{
+							_log.Information($"MonitorService::RGI Call Created");
 							File.Move(file, Path.ChangeExtension(file, ".rgc"));
 							_log.Information($"MonitorService::Moving rgi file to rgc {file}");
+						}
+						else
+						{
+							File.Move(file, Path.ChangeExtension(file, ".rgm"));
+							_log.Information($"MonitorService::RGI Message Not Imported, Moving file to rgm {file}");
 						}
 					}
 					catch (Exception ex)

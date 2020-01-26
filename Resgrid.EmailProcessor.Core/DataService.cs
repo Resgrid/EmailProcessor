@@ -10,6 +10,7 @@ namespace Resgrid.EmailProcessor.Core
 	public interface IDataService
 	{
 		Task<bool> Run(CancellationToken token, Logger log, Config config);
+		DepartmentDataProvider GetDataProviderByEmailCode(string emailCode);
 	}
 
 	public class DataService: IDataService
@@ -51,6 +52,20 @@ namespace Resgrid.EmailProcessor.Core
 			}
 
 			return true;
+		}
+
+		public DepartmentDataProvider GetDataProviderByEmailCode(string emailCode)
+		{
+			foreach (var items in _data)
+			{
+				if (items.Value != null && items.Value.DepartmentInfo != null)
+				{
+					if (items.Value.DepartmentInfo.EmailCode == emailCode)
+						return items.Value;
+				}
+			}
+
+			return null;
 		}
 	}
 }
