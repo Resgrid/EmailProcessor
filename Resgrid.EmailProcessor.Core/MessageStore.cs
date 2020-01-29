@@ -1,5 +1,6 @@
 ﻿using MimeKit;
 using Newtonsoft.Json;
+using Resgrid.ApiClient.V3.Models;
 using Resgrid.EmailProcessor.Core.Model;
 using Serilog;
 using Serilog.Core;
@@ -71,7 +72,7 @@ namespace Resgrid.EmailProcessor.Core
 				}
 			}
 
-			_logger.Information("Email Recieved {id} {fromAddress} {toAddress}", message.Id, fromAddress, toAddress);
+			_logger.Information("Email Received {id} {fromAddress} {toAddress}", message.Id, fromAddress, toAddress);
 
 			var attachments = new List<MimePart>();
 			var multiparts = new List<Multipart>();

@@ -68,6 +68,7 @@ namespace Resgrid.EmailProcessor
 			container.Register<IImportService, ImportService>();
 			container.Register<IMontiorService, MonitorService>();
 			container.Register<IDataService, DataService>();
+			container.Register<ICallsService, CallsService>();
 
 			ViewEngines.Add<StubbleViewEngine>();
 		}

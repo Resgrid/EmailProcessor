@@ -1,4 +1,5 @@
 ﻿using MimeKit;
+using Resgrid.ApiClient.V3.Models;
 using System;
 
 namespace Resgrid.EmailProcessor.Core.Model

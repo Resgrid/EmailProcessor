@@ -34,7 +34,7 @@ namespace Resgrid.EmailProcessor.Core.Model
 			}
 
 			CallPriorities = await CallPrioritiesApi.GetAllCallPriorites(DepartmentInfo.Id);
-			Units = await UnitsApi.Get(DepartmentInfo.Id);
+			Units = await UnitsApi.GetUnitsForDepartment(DepartmentInfo.Id);
 
 			return true;
 		}

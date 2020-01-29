@@ -1,8 +1,10 @@
 ﻿using Resgrid.ApiClient.V3;
+using Resgrid.ApiClient.V3.Models;
 using Resgrid.EmailProcessor.Core.Helpers;
 using Resgrid.EmailProcessor.Core.Model;
 using Serilog.Core;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +13,7 @@ namespace Resgrid.EmailProcessor.Core
 	public interface IImportService
 	{
 		Tuple<int, string> DetermineEmailTypeAndEmail(Message message);
-		Task<bool> CreateCall(Message message);
+		Task<bool> CreateCall(Tuple<int, string> emailType, Message message);
 		Task<bool> ImportMessage(Message message);
 	}
 
@@ -19,12 +21,16 @@ namespace Resgrid.EmailProcessor.Core
 	{
 		private Config _config;
 		private readonly IConfigService _configService;
-		private readonly Logger _logger;
+		private readonly Logger _log;
+		private readonly IDataService _dataService;
+		private readonly ICallsService _callsService;
 
-		public ImportService(IConfigService configService, Logger logger)
+		public ImportService(IConfigService configService, IDataService dataService, Logger log, ICallsService callsService)
 		{
 			_configService = configService;
-			_logger = logger;
+			_log = log;
+			_dataService = dataService;
+			_callsService = callsService;
 		}
 
 		private void Init()
@@ -39,11 +45,14 @@ namespace Resgrid.EmailProcessor.Core
 
 		public async Task<bool> ImportMessage(Message message)
 		{
+			_log.Information($"ImportService::Determining email type for: {message.Id}||{message.InboundMessage.MessageID}");
+
 			var emailType = DetermineEmailTypeAndEmail(message);
+			_log.Information($"ImportService::File Type for email: {message.Id}||{message.InboundMessage.MessageID} type:{emailType.Item1} code:{emailType.Item2}");
 
 			if (emailType.Item1 == 1) // Call
 			{
-				return await CreateCall(message);
+				return await CreateCall(emailType, message);
 			}
 			else if (emailType.Item1 == 2) // Email List
 			{
@@ -61,13 +70,59 @@ namespace Resgrid.EmailProcessor.Core
 			return false;
 		}
 
-		public async Task<bool> CreateCall(Message message)
+		public async Task<bool> CreateCall(Tuple<int, string> emailType, Message message)
 		{
-			var inboundMessage = new InboundMessage();
+			_log.Information($"ImportService::Creating call for email: {message.Id}||{message.InboundMessage.MessageID}");
 
-			
+			var departmentData = _dataService.GetDataProviderByEmailCode(emailType.Item2);
 
-			
+			if (departmentData != null)
+			{
+				try
+				{
+					int emailFormatType = 0;
+
+					if (departmentData.Options == null || departmentData.Options.EmailFormatType < 0)
+					{
+						departmentData.Options.EmailFormatType = (int)CallEmailTypes.Generic;
+					}
+					else
+					{
+						emailFormatType = departmentData.Options.EmailFormatType;
+					}
+
+					List<Call> activeCalls = new List<Call>();
+					if (CallTypesThatNeedActiveCalls.CallTypes.Contains(emailFormatType))
+					{
+						activeCalls = await CallsApi.GetActiveCalls(departmentData.DepartmentInfo.Id);
+					}
+
+					int defaultPriority = (int)ApiClient.Common.CallPriority.High;
+
+					if (departmentData.CallPriorities != null && departmentData.CallPriorities.Any())
+					{
+						var defaultPrio = departmentData.CallPriorities.FirstOrDefault(x => x.IsDefault && x.IsDeleted == false);
+
+						if (defaultPrio != null)
+							defaultPriority = defaultPrio.Id;
+					}
+
+					var call = _callsService.GenerateCallFromEmail((CallEmailTypes)emailFormatType, message.InboundMessage,
+																	 departmentData.DepartmentInfo.ManagingUserId,
+																	 departmentData.DepartmentInfo.Members, departmentData.DepartmentInfo, activeCalls, departmentData.Units, defaultPriority);
+
+					if (call != null)
+					{
+						call.DepartmentId = departmentData.DepartmentInfo.Id;
+
+						var savedCall = await CallsApi.AddNewCall(call);
+					}
+				}
+				catch (Exception ex)
+				{
+					_log.Error(ex, $"ImportService::Exception attempting to create call for email: {message.Id}||{message.InboundMessage.MessageID}");
+				}
+			}
 
 			return false;
 		}
